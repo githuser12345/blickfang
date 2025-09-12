@@ -12,7 +12,7 @@ import {
 const StudioSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [currentSlide, setCurrentSlide] = useState(0);
-    const sectionRef = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
 
     const studioImages = [
         {
@@ -75,13 +75,61 @@ const StudioSection = () => {
         setCurrentSlide((prev) => (prev - 1 + studioImages.length) % studioImages.length);
     };
 
-    const goToSlide = (index) => {
+    const goToSlide = (index: number) => {
         setCurrentSlide(index);
     };
 
-    const handleImageError = (e) => {
-        const target = e.target;
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.currentTarget;
         target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjlmYWZiIi8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjE1MCIgcj0iNDAiIGZpbGw9IiNlNWU3ZWIiLz4KPC9zdmc+';
+    };
+
+    const handleMouseEnterDiv = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+        target.style.borderColor = 'rgba(58, 182, 78, 0.3)';
+    };
+
+    const handleMouseLeaveDiv = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
+        target.style.borderColor = 'rgba(58, 182, 78, 0.2)';
+    };
+
+    const handleMouseEnterIcon = (e: React.MouseEvent<SVGSVGElement>) => {
+        const target = e.currentTarget;
+        target.style.color = '#2a903d';
+    };
+
+    const handleMouseLeaveIcon = (e: React.MouseEvent<SVGSVGElement>, defaultColor: string) => {
+        const target = e.currentTarget;
+        target.style.color = defaultColor;
+    };
+
+    const handleMouseEnterButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
+        target.style.color = '#1f2937';
+    };
+
+    const handleMouseLeaveButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+        target.style.color = '#2a903d';
+    };
+
+    const handleMouseEnterIndicator = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        const target = e.currentTarget;
+        if (index !== currentSlide) {
+            target.style.backgroundColor = 'rgba(75, 201, 91, 0.7)';
+        }
+    };
+
+    const handleMouseLeaveIndicator = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        const target = e.currentTarget;
+        if (index !== currentSlide) {
+            target.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
+        }
     };
 
     return (
@@ -178,24 +226,14 @@ const StudioSection = () => {
                                 <div
                                     className="bg-white rounded-xl p-6 shadow-sm border transition-all duration-300"
                                     style={{ borderColor: 'rgba(58, 182, 78, 0.2)' }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.2)';
-                                    }}
+                                    onMouseEnter={handleMouseEnterDiv}
+                                    onMouseLeave={handleMouseLeaveDiv}
                                 >
                                     <Shield
                                         className="w-10 h-10 mx-auto mb-3 transition-colors duration-300"
                                         style={{ color: '#3ab64e' }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#2a903d';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#3ab64e';
-                                        }}
+                                        onMouseEnter={handleMouseEnterIcon}
+                                        onMouseLeave={(e) => handleMouseLeaveIcon(e, '#3ab64e')}
                                     />
                                     <div className="text-sm font-semibold mb-1" style={{ color: '#3ab64e' }}>Hygiene</div>
                                     <div className="text-xs text-gray-600">Höchste Standards</div>
@@ -206,24 +244,14 @@ const StudioSection = () => {
                                 <div
                                     className="bg-white rounded-xl p-6 shadow-sm border transition-all duration-300"
                                     style={{ borderColor: 'rgba(58, 182, 78, 0.2)' }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.2)';
-                                    }}
+                                    onMouseEnter={handleMouseEnterDiv}
+                                    onMouseLeave={handleMouseLeaveDiv}
                                 >
                                     <Award
                                         className="w-10 h-10 mx-auto mb-3 transition-colors duration-300"
                                         style={{ color: '#3ab64e' }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#2a903d';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#3ab64e';
-                                        }}
+                                        onMouseEnter={handleMouseEnterIcon}
+                                        onMouseLeave={(e) => handleMouseLeaveIcon(e, '#3ab64e')}
                                     />
                                     <div className="text-sm font-semibold mb-1" style={{ color: '#3ab64e' }}>Qualität</div>
                                     <div className="text-xs text-gray-600">Premium Produkte</div>
@@ -234,24 +262,14 @@ const StudioSection = () => {
                                 <div
                                     className="bg-white rounded-xl p-6 shadow-sm border transition-all duration-300"
                                     style={{ borderColor: 'rgba(58, 182, 78, 0.2)' }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.2)';
-                                    }}
+                                    onMouseEnter={handleMouseEnterDiv}
+                                    onMouseLeave={handleMouseLeaveDiv}
                                 >
                                     <Star
                                         className="w-10 h-10 mx-auto mb-3 transition-colors duration-300"
                                         style={{ color: '#3ab64e' }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.color = '#2a903d';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.color = '#3ab64e';
-                                        }}
+                                        onMouseEnter={handleMouseEnterIcon}
+                                        onMouseLeave={(e) => handleMouseLeaveIcon(e, '#3ab64e')}
                                     />
                                     <div className="text-sm font-semibold mb-1" style={{ color: '#3ab64e' }}>Erfahrung</div>
                                     <div className="text-xs text-gray-600">Seit 2016</div>
@@ -306,14 +324,8 @@ const StudioSection = () => {
                                         color: '#2a903d',
                                         borderColor: 'rgba(58, 182, 78, 0.2)',
                                     }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
-                                        e.target.style.color = '#1f2937';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                                        e.target.style.color = '#2a903d';
-                                    }}
+                                    onMouseEnter={handleMouseEnterButton}
+                                    onMouseLeave={handleMouseLeaveButton}
                                 >
                                     <ChevronLeft className="w-5 h-5" />
                                 </button>
@@ -325,14 +337,8 @@ const StudioSection = () => {
                                         color: '#2a903d',
                                         borderColor: 'rgba(58, 182, 78, 0.2)',
                                     }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
-                                        e.target.style.color = '#1f2937';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                                        e.target.style.color = '#2a903d';
-                                    }}
+                                    onMouseEnter={handleMouseEnterButton}
+                                    onMouseLeave={handleMouseLeaveButton}
                                 >
                                     <ChevronRight className="w-5 h-5" />
                                 </button>
@@ -351,16 +357,8 @@ const StudioSection = () => {
                                             style={{
                                                 backgroundColor: index === currentSlide ? '#4bc95b' : 'rgba(255, 255, 255, 0.6)'
                                             }}
-                                            onMouseEnter={(e) => {
-                                                if (index !== currentSlide) {
-                                                    e.target.style.backgroundColor = 'rgba(75, 201, 91, 0.7)';
-                                                }
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                if (index !== currentSlide) {
-                                                    e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
-                                                }
-                                            }}
+                                            onMouseEnter={(e) => handleMouseEnterIndicator(e, index)}
+                                            onMouseLeave={(e) => handleMouseLeaveIndicator(e, index)}
                                         />
                                     ))}
                                 </div>
@@ -371,23 +369,19 @@ const StudioSection = () => {
                                 <div
                                     className="bg-white rounded-lg p-4 shadow-sm border transition-all duration-300 text-center group"
                                     style={{ borderColor: 'rgba(58, 182, 78, 0.2)' }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.2)';
-                                        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
-                                    }}
+                                    onMouseEnter={handleMouseEnterDiv}
+                                    onMouseLeave={handleMouseLeaveDiv}
                                 >
                                     <div
                                         className="text-2xl font-bold transition-colors duration-300"
                                         style={{ color: '#3ab64e' }}
                                         onMouseEnter={(e) => {
-                                            e.target.style.color = '#2a903d';
+                                            const target = e.currentTarget;
+                                            target.style.color = '#2a903d';
                                         }}
                                         onMouseLeave={(e) => {
-                                            e.target.style.color = '#3ab64e';
+                                            const target = e.currentTarget;
+                                            target.style.color = '#3ab64e';
                                         }}
                                     >8+</div>
                                     <div className="text-sm text-gray-600">Jahre Erfahrung</div>
@@ -395,23 +389,19 @@ const StudioSection = () => {
                                 <div
                                     className="bg-white rounded-lg p-4 shadow-sm border transition-all duration-300 text-center group"
                                     style={{ borderColor: 'rgba(58, 182, 78, 0.2)' }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                        e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.2)';
-                                        e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)';
-                                    }}
+                                    onMouseEnter={handleMouseEnterDiv}
+                                    onMouseLeave={handleMouseLeaveDiv}
                                 >
                                     <div
                                         className="text-2xl font-bold transition-colors duration-300"
                                         style={{ color: '#4bc95b' }}
                                         onMouseEnter={(e) => {
-                                            e.target.style.color = '#3ab64e';
+                                            const target = e.currentTarget;
+                                            target.style.color = '#3ab64e';
                                         }}
                                         onMouseLeave={(e) => {
-                                            e.target.style.color = '#4bc95b';
+                                            const target = e.currentTarget;
+                                            target.style.color = '#4bc95b';
                                         }}
                                     >100%</div>
                                     <div className="text-sm text-gray-600">Zufriedenheit</div>

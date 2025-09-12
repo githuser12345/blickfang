@@ -39,9 +39,10 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Vollständig opaque Hintergrund (keine Transparenz mehr)
+    // Hintergrund-Opazität basierend auf Scroll-Position
     const getBackgroundOpacity = () => {
-        return 1; // Immer vollständig sichtbar
+        if (scrollY === 0) return 0.95; // Leicht transparent am Anfang
+        return Math.min(1, scrollY / 100); // Wird opaker beim Scrollen
     };
 
     const getTextColor = () => {

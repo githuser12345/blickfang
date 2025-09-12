@@ -1,9 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import {
     MapPin,
     Phone,
-    Mail,
-    Clock,
     Instagram,
     Facebook,
     MessageCircle,

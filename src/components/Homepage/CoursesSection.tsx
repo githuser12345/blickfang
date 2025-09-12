@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Clock, Users, Award, Star, Calendar, BookOpen, Sparkles } from 'lucide-react';
+import { Clock, Users, Star, Calendar, BookOpen, Sparkles } from 'lucide-react';
 
 const CoursesSection = () => {
     const [isVisible, setIsVisible] = useState(false);
-    const [hoveredCard, setHoveredCard] = useState(null);
-    const sectionRef = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -22,6 +21,61 @@ const CoursesSection = () => {
 
         return () => observer.disconnect();
     }, []);
+
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.currentTarget;
+        target.src = `data:image/svg+xml;base64,${btoa(`<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="500" height="300" fill="url(#gradient)"/><defs><linearGradient id="gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3ab64e" stop-opacity="0.8"/><stop offset="1" stop-color="#2a903d" stop-opacity="0.6"/></linearGradient></defs></svg>`)}`;
+    };
+
+    const handleCardMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.borderColor = 'rgba(58, 182, 78, 0.3)';
+    };
+
+    const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.borderColor = '#e5e7eb';
+    };
+
+    const handleTitleMouseEnter = (e: React.MouseEvent<HTMLHeadingElement>) => {
+        const target = e.currentTarget;
+        target.style.color = '#2a903d';
+    };
+
+    const handleTitleMouseLeave = (e: React.MouseEvent<HTMLHeadingElement>) => {
+        const target = e.currentTarget;
+        target.style.color = '#1f2937';
+    };
+
+    const handleInfoGridMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
+    };
+
+    const handleInfoGridMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#f9fafb';
+    };
+
+    const handleFeatureMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
+    };
+
+    const handleFeatureMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#f9fafb';
+    };
+
+    const handleButtonMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.background = 'linear-gradient(90deg, #2a903d 0%, #3ab64e 100%)';
+    };
+
+    const handleButtonMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.background = 'linear-gradient(90deg, #3ab64e 0%, #4bc95b 100%)';
+    };
 
     const courses = [
         {
@@ -118,23 +172,12 @@ const CoursesSection = () => {
                                     : 'translate-y-20 opacity-0'
                             }`}
                             style={{ transitionDelay: `${index * 150}ms` }}
-                            onMouseEnter={() => setHoveredCard(course.id)}
-                            onMouseLeave={() => setHoveredCard(null)}
                         >
                             {/* Card */}
                             <div
                                 className="relative bg-white rounded-2xl border border-gray-200 transition-all duration-300 overflow-hidden hover:shadow-lg h-full flex flex-col"
-                                style={{
-                                    '&:hover': {
-                                        borderColor: 'rgba(58, 182, 78, 0.3)'
-                                    }
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.borderColor = 'rgba(58, 182, 78, 0.3)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.borderColor = '#e5e7eb';
-                                }}
+                                onMouseEnter={handleCardMouseEnter}
+                                onMouseLeave={handleCardMouseLeave}
                             >
 
                                 {/* Image Container */}
@@ -143,9 +186,7 @@ const CoursesSection = () => {
                                         src={course.image}
                                         alt={course.title}
                                         className="w-full h-full object-cover transition-all duration-500"
-                                        onError={(e) => {
-                                            e.target.src = `data:image/svg+xml;base64,${btoa(`<svg width="500" height="300" viewBox="0 0 500 300" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="500" height="300" fill="url(#gradient)"/><defs><linearGradient id="gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#3ab64e" stop-opacity="0.8"/><stop offset="1" stop-color="#2a903d" stop-opacity="0.6"/></linearGradient></defs></svg>`)}`;
-                                        }}
+                                        onError={handleImageError}
                                     />
 
                                     {/* Overlay */}
@@ -185,12 +226,8 @@ const CoursesSection = () => {
 
                                         <h3
                                             className="text-2xl font-bold text-gray-800 transition-colors duration-200"
-                                            onMouseEnter={(e) => {
-                                                e.target.style.color = '#2a903d';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.target.style.color = '#1f2937';
-                                            }}
+                                            onMouseEnter={handleTitleMouseEnter}
+                                            onMouseLeave={handleTitleMouseLeave}
                                         >
                                             {course.title}
                                         </h3>
@@ -205,12 +242,8 @@ const CoursesSection = () => {
                                     <div className="grid grid-cols-2 gap-4 py-4">
                                         <div
                                             className="flex items-center space-x-2 p-3 bg-gray-50 rounded-xl transition-colors duration-200"
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = '#f9fafb';
-                                            }}
+                                            onMouseEnter={handleInfoGridMouseEnter}
+                                            onMouseLeave={handleInfoGridMouseLeave}
                                         >
                                             <Clock className="w-5 h-5" style={{ color: '#3ab64e' }} />
                                             <div>
@@ -221,12 +254,8 @@ const CoursesSection = () => {
 
                                         <div
                                             className="flex items-center space-x-2 p-3 bg-gray-50 rounded-xl transition-colors duration-200"
-                                            onMouseEnter={(e) => {
-                                                e.currentTarget.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
-                                            }}
-                                            onMouseLeave={(e) => {
-                                                e.currentTarget.style.backgroundColor = '#f9fafb';
-                                            }}
+                                            onMouseEnter={handleInfoGridMouseEnter}
+                                            onMouseLeave={handleInfoGridMouseLeave}
                                         >
                                             <Users className="w-5 h-5" style={{ color: '#3ab64e' }} />
                                             <div>
@@ -247,12 +276,8 @@ const CoursesSection = () => {
                                                 <div
                                                     key={idx}
                                                     className="text-xs text-gray-600 bg-gray-50 rounded-lg px-3 py-2 transition-colors duration-200"
-                                                    onMouseEnter={(e) => {
-                                                        e.currentTarget.style.backgroundColor = 'rgba(58, 182, 78, 0.05)';
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                        e.currentTarget.style.backgroundColor = '#f9fafb';
-                                                    }}
+                                                    onMouseEnter={handleFeatureMouseEnter}
+                                                    onMouseLeave={handleFeatureMouseLeave}
                                                 >
                                                     • {feature}
                                                 </div>
@@ -266,12 +291,8 @@ const CoursesSection = () => {
                                         style={{
                                             background: 'linear-gradient(90deg, #3ab64e 0%, #4bc95b 100%)'
                                         }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = 'linear-gradient(90deg, #2a903d 0%, #3ab64e 100%)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'linear-gradient(90deg, #3ab64e 0%, #4bc95b 100%)';
-                                        }}
+                                        onMouseEnter={handleButtonMouseEnter}
+                                        onMouseLeave={handleButtonMouseLeave}
                                     >
                                         <Calendar className="w-5 h-5" />
                                         <span>Jetzt Buchen</span>
@@ -299,12 +320,8 @@ const CoursesSection = () => {
                             style={{
                                 background: 'linear-gradient(90deg, #3ab64e 0%, #4bc95b 100%)'
                             }}
-                            onMouseEnter={(e) => {
-                                e.target.style.background = 'linear-gradient(90deg, #2a903d 0%, #3ab64e 100%)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.target.style.background = 'linear-gradient(90deg, #3ab64e 0%, #4bc95b 100%)';
-                            }}
+                            onMouseEnter={handleButtonMouseEnter}
+                            onMouseLeave={handleButtonMouseLeave}
                         >
                             Beratung anfragen
                         </button>

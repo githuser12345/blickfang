@@ -47,6 +47,28 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const handleSocialButtonMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#3ab64e';
+        target.style.borderColor = '#3ab64e';
+    };
+
+    const handleSocialButtonMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#1f2937';
+        target.style.borderColor = '#374151';
+    };
+
+    const handleScrollTopMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#2a903d';
+    };
+
+    const handleScrollTopMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const target = e.currentTarget;
+        target.style.backgroundColor = '#3ab64e';
+    };
+
     const openingHours = [
         { day: 'Montag', hours: '09:00 - 18:00' },
         { day: 'Dienstag', hours: '09:00 - 18:00' },
@@ -131,48 +153,24 @@ const Footer = () => {
                                 <div className="flex space-x-3">
                                     <button
                                         className="bg-gray-800 p-2.5 rounded-lg hover:scale-105 transform transition-all duration-200 border border-gray-700"
-                                        style={{
-                                            '&:hover': {
-                                                backgroundColor: '#3ab64e',
-                                                borderColor: '#3ab64e'
-                                            }
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.backgroundColor = '#3ab64e';
-                                            e.target.style.borderColor = '#3ab64e';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.backgroundColor = '#1f2937';
-                                            e.target.style.borderColor = '#374151';
-                                        }}
+                                        onMouseEnter={handleSocialButtonMouseEnter}
+                                        onMouseLeave={handleSocialButtonMouseLeave}
                                         aria-label="Instagram"
                                     >
                                         <Instagram className="w-5 h-5 text-white" />
                                     </button>
                                     <button
                                         className="bg-gray-800 p-2.5 rounded-lg hover:scale-105 transform transition-all duration-200 border border-gray-700"
-                                        onMouseEnter={(e) => {
-                                            e.target.style.backgroundColor = '#3ab64e';
-                                            e.target.style.borderColor = '#3ab64e';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.backgroundColor = '#1f2937';
-                                            e.target.style.borderColor = '#374151';
-                                        }}
+                                        onMouseEnter={handleSocialButtonMouseEnter}
+                                        onMouseLeave={handleSocialButtonMouseLeave}
                                         aria-label="Facebook"
                                     >
                                         <Facebook className="w-5 h-5 text-white" />
                                     </button>
                                     <button
                                         className="bg-gray-800 p-2.5 rounded-lg hover:scale-105 transform transition-all duration-200 border border-gray-700"
-                                        onMouseEnter={(e) => {
-                                            e.target.style.backgroundColor = '#3ab64e';
-                                            e.target.style.borderColor = '#3ab64e';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.backgroundColor = '#1f2937';
-                                            e.target.style.borderColor = '#374151';
-                                        }}
+                                        onMouseEnter={handleSocialButtonMouseEnter}
+                                        onMouseLeave={handleSocialButtonMouseLeave}
                                         aria-label="Twitter"
                                     >
                                         <Twitter className="w-5 h-5 text-white" />
@@ -321,12 +319,8 @@ const Footer = () => {
                 style={{
                     backgroundColor: '#3ab64e'
                 }}
-                onMouseEnter={(e) => {
-                    e.target.style.backgroundColor = '#2a903d';
-                }}
-                onMouseLeave={(e) => {
-                    e.target.style.backgroundColor = '#3ab64e';
-                }}
+                onMouseEnter={handleScrollTopMouseEnter}
+                onMouseLeave={handleScrollTopMouseLeave}
                 aria-label="Nach oben scrollen"
             >
                 <ChevronUp className="w-5 h-5" />

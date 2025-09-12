@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import '../../index.css';
 import picture5 from '../../assets/Picture23.jpg'
 import picture15 from '../../assets/Picture15.jpg'
@@ -54,14 +53,16 @@ const HeroCarousel = () => {
         }, 5000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [carouselImages.length]);
 
-    const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % carouselImages.length);
+
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.currentTarget;
+        target.style.display = 'none';
     };
 
-    const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + carouselImages.length) % carouselImages.length);
+    const handleIndicatorClick = (index: number) => {
+        setCurrentSlide(index);
     };
 
     return (
@@ -101,9 +102,7 @@ const HeroCarousel = () => {
                                     src={item.image}
                                     alt={item.title}
                                     className="w-full h-full object-cover"
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                    }}
+                                    onError={handleImageError}
                                 />
                                 {/* Sanfter Gradient-Übergang */}
                                 <div className={`absolute inset-0 bg-gradient-to-${index % 2 === 1 ? 'r' : 'l'} from-transparent via-transparent to-black/10`}></div>
@@ -119,7 +118,7 @@ const HeroCarousel = () => {
                     {carouselImages.map((_, index) => (
                         <button
                             key={index}
-                            onClick={() => setCurrentSlide(index)}
+                            onClick={() => handleIndicatorClick(index)}
                             className={`h-1.5 rounded-full transition-all duration-700 ease-out hover:scale-125 ${
                                 index === currentSlide
                                     ? 'w-8 shadow-lg transform scale-110'

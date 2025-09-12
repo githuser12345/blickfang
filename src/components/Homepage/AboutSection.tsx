@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Star, Users, Clock, Sparkles } from 'lucide-react';
+import {Users, Clock, Sparkles } from 'lucide-react';
 
 import picture17 from '../../assets/picture17.jpg'
 
 const AboutSection = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [counters, setCounters] = useState({ years: 0, clients: 0, designs: 0 });
-    const sectionRef = useRef(null);
+    const sectionRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -52,12 +52,27 @@ const AboutSection = () => {
         }, stepTime);
     };
 
+    const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.currentTarget;
+        target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjcwMCIgdmlld0JveD0iMCAwIDYwMCA3MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGJ1aWxkZXIgdHlwZT0ibGluZWFyIiBpZD0iZ3JhZGllbnQiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0Q1REQ0OCIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQzVERDM4IiBzdG9wLW9wYWNpdHk9IjAuNiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==';
+    };
+
+    const handleCardMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.borderColor = 'rgba(213, 221, 72, 0.3)';
+    };
+
+    const handleCardMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        const target = e.currentTarget;
+        target.style.borderColor = 'rgba(213, 221, 72, 0.2)';
+    };
+
     return (
         <section
             ref={sectionRef}
-            className="relative py-20 bg-gradient-to-br from-stone-50 via-green-50/20 to-lime-50/10"
+            className="relative py-20"
             style={{
-                background: 'linear-gradient(135deg, #f9fafb 0%, rgba(213, 221, 72, 0.05) 50%, rgba(213, 221, 72, 0.03) 100%)'
+                backgroundColor: '#F5F4F0' // Harmoniert perfekt mit der Navbar-Farbe #EAE9E5
             }}
         >
             {/* Subtle Decorative Line */}
@@ -79,9 +94,7 @@ const AboutSection = () => {
                                 src={picture17}
                                 alt="Adriana - Nageldesignerin bei blickfang"
                                 className="w-full h-[500px] md:h-[600px] object-cover transition-all duration-500"
-                                onError={(e) => {
-                                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjcwMCIgdmlld0JveD0iMCAwIDYwMCA3MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNzAwIiBmaWxsPSJ1cmwoI2dyYWRpZW50KSIvPgo8ZGVmcz4KPGJ1aWxkZXIgdHlwZT0ibGluZWFyIiBpZD0iZ3JhZGllbnQiIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agc3RvcC1jb2xvcj0iI0Q1REQ0OCIgc3RvcC1vcGFjaXR5PSIwLjgiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQzVERDM4IiBzdG9wLW9wYWNpdHk9IjAuNiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==';
-                                }}
+                                onError={handleImageError}
                             />
                         </div>
                     </div>
@@ -128,12 +141,8 @@ const AboutSection = () => {
                                     style={{
                                         borderColor: 'rgba(213, 221, 72, 0.2)',
                                     }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.2)';
-                                    }}
+                                    onMouseEnter={handleCardMouseEnter}
+                                    onMouseLeave={handleCardMouseLeave}
                                 >
                                     <div className="flex items-center justify-center mb-2">
                                         <Clock className="w-8 h-8" style={{ color: '#D5DD48' }} />
@@ -151,12 +160,8 @@ const AboutSection = () => {
                                     style={{
                                         borderColor: 'rgba(213, 221, 72, 0.2)',
                                     }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.2)';
-                                    }}
+                                    onMouseEnter={handleCardMouseEnter}
+                                    onMouseLeave={handleCardMouseLeave}
                                 >
                                     <div className="flex items-center justify-center mb-2">
                                         <Users className="w-8 h-8" style={{ color: '#D5DD48' }} />
@@ -174,17 +179,13 @@ const AboutSection = () => {
                                     style={{
                                         borderColor: 'rgba(213, 221, 72, 0.2)',
                                     }}
-                                    onMouseEnter={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.3)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.target.style.borderColor = 'rgba(213, 221, 72, 0.2)';
-                                    }}
+                                    onMouseEnter={handleCardMouseEnter}
+                                    onMouseLeave={handleCardMouseLeave}
                                 >
                                     <div className="flex items-center justify-center mb-2">
                                         <Sparkles className="w-8 h-8" style={{ color: '#D5DD48' }} />
                                     </div>
-                                    <div className="text-3xl md:text-4xl font-bold mb-1 text-gray-600">
+                                    <div className="text-3xl md:text-4xl font-bold mb-1 text-gray-800">
                                         {counters.designs}+
                                     </div>
                                     <div className="text-sm text-gray-500 font-medium">Designs erstellt</div>
